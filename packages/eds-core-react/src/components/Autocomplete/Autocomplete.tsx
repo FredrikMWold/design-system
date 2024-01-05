@@ -503,7 +503,7 @@ function AutocompleteInner<T>(
       }
     },
   }
-
+  const inputRef = useRef<HTMLInputElement | null>(null)
   if (!multiple) {
     comboBoxProps = {
       ...comboBoxProps,
@@ -514,6 +514,7 @@ function AutocompleteInner<T>(
             selectedItems: selectedItem ? [selectedItem] : [],
           })
         }
+        inputRef.current.blur()
       },
     }
 
@@ -747,6 +748,7 @@ function AutocompleteInner<T>(
         <Container ref={refs.setReference}>
           <Input
             {...inputProps}
+            ref={inputRef}
             variant={variant}
             placeholder={placeholderText}
             readOnly={readOnly}
