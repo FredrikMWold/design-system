@@ -28,6 +28,7 @@ const icons = {
 Icon.add(icons)
 
 type NavigationStyledProps = { $withItemIndicator: boolean }
+type OrderedList = { columns: number }
 
 const Navigation = styled.nav<NavigationStyledProps>`
   display: flex;
@@ -38,13 +39,17 @@ const Navigation = styled.nav<NavigationStyledProps>`
     $withItemIndicator ? tokens.spacings.left : 0};
 `
 
-const OrderedList = styled.ol`
+const OrderedList = styled.ol<OrderedList>`
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-gap: ${tokens.spacings.left};
   grid-auto-flow: column;
+  grid-template-columns: ${({ columns }) => `repeat(${columns}, 24px)`};
+  @media (min-width: 530px) {
+    grid-template-columns: ${({ columns }) => `repeat(${columns}, 48px)`};
+  }
 `
 
 const ListItem = styled.li`
@@ -135,11 +140,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(
 
     const pagination = (
       <Navigation aria-label="pagination" {...props}>
-        <OrderedList
-          style={{
-            gridTemplateColumns: `repeat(${columns}, 48px)`,
-          }}
-        >
+        <OrderedList columns={columns}>
           <ListItem key="previous">
             <Button
               variant="ghost_icon"
